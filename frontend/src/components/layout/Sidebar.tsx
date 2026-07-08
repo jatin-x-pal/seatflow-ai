@@ -1,46 +1,91 @@
-import Link from 'next/link';
-import { Home, Users, Briefcase, Map, BarChart2 } from 'lucide-react';
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  LayoutDashboard, Users, Briefcase, Armchair,
+  BarChart3, Sparkles, UserPlus, FolderPlus, Map,
+} from "lucide-react";
+
+const NAV_ITEMS = [
+  { href: "/dashboard",   label: "Dashboard",        icon: LayoutDashboard },
+  { href: "/employees",   label: "Employees",         icon: Users          },
+  { href: "/projects",    label: "Projects",          icon: Briefcase      },
+  { href: "/seats",       label: "Workspace",         icon: Armchair       },
+  { href: "/visualizer",  label: "Floor Visualizer",  icon: Map            },
+  { href: "/analytics",   label: "Analytics",         icon: BarChart3      },
+];
+
+const ACTION_ITEMS = [
+  { href: "/employees/new", label: "Add Employee", icon: UserPlus },
+  { href: "/projects/new", label: "Create Project", icon: FolderPlus },
+];
 
 export function Sidebar() {
+  const pathname = usePathname();
+
   return (
-    <aside className="w-64 bg-slate-900 h-screen text-white flex flex-col pt-6">
-      <div className="px-6 mb-8 text-2xl font-bold text-sky-400 tracking-wide">
-        SeatFlow AI
-      </div>
-      <nav className="flex-1 px-4 space-y-2">
-        <Link href="/dashboard" className="flex items-center space-x-3 px-4 py-3 rounded hover:bg-slate-800 transition">
-          <Home className="w-5 h-5" />
-          <span>Dashboard</span>
-        </Link>
-        <Link href="/employees" className="flex items-center space-x-3 px-4 py-3 rounded hover:bg-slate-800 transition">
-          <Users className="w-5 h-5" />
-          <span>Employees</span>
-        </Link>
-        <Link href="/projects" className="flex items-center space-x-3 px-4 py-3 rounded hover:bg-slate-800 transition">
-          <Briefcase className="w-5 h-5" />
-          <span>Projects</span>
-        </Link>
-        <Link href="/seats" className="flex items-center space-x-3 px-4 py-3 rounded hover:bg-slate-800 transition">
-          <Map className="w-5 h-5" />
-          <span>Workspace</span>
-        </Link>
-        <Link href="/analytics" className="flex items-center space-x-3 px-4 py-3 rounded hover:bg-slate-800 transition">
-          <BarChart2 className="w-5 h-5" />
-          <span>Analytics</span>
-        </Link>
-        <div className="pt-4 pb-2 px-4 uppercase text-xs font-semibold text-slate-500 tracking-wider">
-          Actions
+    <aside className="w-60 bg-gray-950 h-screen text-white flex flex-col border-r border-gray-800 flex-shrink-0">
+      {/* Logo */}
+      <div className="px-5 py-5 border-b border-gray-800">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
+            <Armchair className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-lg font-bold text-white tracking-tight">SeatFlow AI</span>
         </div>
-        <Link href="/employees/new" className="flex items-center space-x-3 px-4 py-2 rounded text-sm text-slate-300 hover:bg-slate-800 transition">
-          <span>+ Add Employee</span>
-        </Link>
-        <Link href="/projects/new" className="flex items-center space-x-3 px-4 py-2 rounded text-sm text-slate-300 hover:bg-slate-800 transition">
-          <span>+ Create Project</span>
-        </Link>
-        <Link href="/ai" className="flex items-center space-x-3 px-4 py-3 mt-4 bg-sky-900/40 rounded hover:bg-sky-800/60 transition text-sky-300">
-          <span className="font-bold">Ask SeatFlow AI ✨</span>
-        </Link>
+      </div>
+
+      {/* Main Nav */}
+      <nav className="flex-1 px-3 pt-4 space-y-0.5 overflow-y-auto">
+        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href || pathname.startsWith(href + "/");
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                active
+                  ? "bg-indigo-600/20 text-indigo-400 border border-indigo-500/20"
+                  : "text-gray-400 hover:text-gray-200 hover:bg-gray-800/60"
+              }`}
+            >
+              <Icon className={`w-4 h-4 flex-shrink-0 ${active ? "text-indigo-400" : ""}`} />
+              {label}
+            </Link>
+          );
+        })}
+
+        {/* Actions section */}
+        <div className="pt-5 pb-1.5 px-1">
+          <p className="text-[10px] uppercase font-bold text-gray-600 tracking-widest">Quick Actions</p>
+        </div>
+        {ACTION_ITEMS.map(({ href, label, icon: Icon }) => (
+          <Link
+            key={href}
+            href={href}
+            className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-500 hover:text-gray-300 hover:bg-gray-800/40 transition-colors"
+          >
+            <Icon className="w-3.5 h-3.5 flex-shrink-0" />
+            {label}
+          </Link>
+        ))}
       </nav>
+
+      {/* AI Button */}
+      <div className="p-3 border-t border-gray-800">
+        <Link
+          href="/ai"
+          className={`flex items-center gap-2.5 px-3 py-3 rounded-xl text-sm font-semibold transition-all ${
+            pathname === "/ai"
+              ? "bg-indigo-600 text-white"
+              : "bg-indigo-600/10 text-indigo-400 border border-indigo-500/20 hover:bg-indigo-600/20"
+          }`}
+        >
+          <Sparkles className="w-4 h-4" />
+          Ask SeatFlow AI
+        </Link>
+      </div>
     </aside>
   );
 }
