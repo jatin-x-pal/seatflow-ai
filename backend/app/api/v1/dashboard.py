@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from sqlalchemy import func, case
 from app.api import deps
-from app.models.organization import Employee, Project
+from app.models.organization import Employee, Project, Department
 from app.models.workspace import Seat, Floor
 
 router = APIRouter()
@@ -27,6 +27,16 @@ def get_dashboard_summary(
         (occupied_seats / total_seats * 100) if total_seats > 0 else 0, 2
     )
 
+    # Department Distribution
+    dept_distribution = db.query(
+        Department.name, func.count(Employee.id).label('count')
+    ).outerjoin(Employee).group_by(Department.name).all()
+
+    # Project Distribution
+    proj_distribution = db.query(
+        Project.name, func.count(Employee.id).label('count')
+    ).outerjoin(Employee).group_by(Project.name).all()
+
     return {
         "total_employees": total_employees,
         "total_seats": total_seats,
@@ -47,6 +57,10 @@ def get_dashboard_summary(
             "total_projects": total_projects,
             "seat_utilization_pct": seat_utilization,
         },
+        "charts": {
+            "department_distribution": [{"name": d.name, "value": d.count} for d in dept_distribution],
+            "project_distribution": [{"name": p.name, "value": p.count} for p in proj_distribution]
+        }
     }
 
 
