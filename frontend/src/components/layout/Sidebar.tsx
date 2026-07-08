@@ -28,6 +28,18 @@ export function Sidebar() {
           <BarChart2 className="w-5 h-5" />
           <span>Analytics</span>
         </Link>
+        <div className="pt-4 pb-2 px-4 uppercase text-xs font-semibold text-slate-500 tracking-wider">
+          Actions
+        </div>
+        <Link href="/employees/new" className="flex items-center space-x-3 px-4 py-2 rounded text-sm text-slate-300 hover:bg-slate-800 transition">
+          <span>+ Add Employee</span>
+        </Link>
+        <Link href="/projects/new" className="flex items-center space-x-3 px-4 py-2 rounded text-sm text-slate-300 hover:bg-slate-800 transition">
+          <span>+ Create Project</span>
+        </Link>
+        <Link href="/ai" className="flex items-center space-x-3 px-4 py-3 mt-4 bg-sky-900/40 rounded hover:bg-sky-800/60 transition text-sky-300">
+          <span className="font-bold">Ask SeatFlow AI ✨</span>
+        </Link>
       </nav>
     </aside>
   );

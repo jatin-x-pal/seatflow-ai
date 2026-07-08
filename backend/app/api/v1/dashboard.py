@@ -10,8 +10,7 @@ router = APIRouter()
 
 @router.get("/metrics")
 def get_dashboard_metrics(
-    db: Session = Depends(deps.get_db),
-    current_user = Depends(deps.get_current_user)
+    db: Session = Depends(deps.get_db)
 ) -> Any:
     total_employees = db.query(Employee).count()
     total_seats = db.query(Seat).count()

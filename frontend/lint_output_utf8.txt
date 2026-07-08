@@ -1,0 +1,40 @@
+﻿
+> frontend@0.1.0 lint
+> eslint
+
+
+D:\Projects\seatflow-ai\frontend\src\app\ai\page.tsx
+  33:14  warning  'err' is defined but never used                                  @typescript-eslint/no-unused-vars
+  53:27  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  53:52  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  53:57  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  53:82  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+D:\Projects\seatflow-ai\frontend\src\app\dashboard\page.tsx
+  16:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  76:58  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  92:55  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Projects\seatflow-ai\frontend\src\app\employees\new\page.tsx
+  41:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Projects\seatflow-ai\frontend\src\app\employees\page.tsx
+  16:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  43:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Projects\seatflow-ai\frontend\src\app\projects\new\page.tsx
+  37:14  warning  'err' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\Projects\seatflow-ai\frontend\src\app\projects\page.tsx
+  16:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  39:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Projects\seatflow-ai\frontend\src\app\seats\page.tsx
+  16:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  39:33  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\Projects\seatflow-ai\frontend\src\components\layout\Navbar.tsx
+  1:24  warning  'User' is defined but never used  @typescript-eslint/no-unused-vars
+
+Ô£û 17 problems (9 errors, 8 warnings)
+

@@ -1,30 +1,30 @@
-import requests
-import json
-import time
+from fastapi.testclient import TestClient
+from app.main import app
 
-BASE_URL = "http://localhost:8000/api/v1"
+def test_dashboard_metrics():
+    client = TestClient(app)
+    # The application is live, testing GET dashboard
+    response = client.get("/api/v1/dashboard/metrics")
+    
+    assert response.status_code == 200, "Dashboard metrics endpoint failed!"
+    data = response.json()
+    assert "widgets" in data, "Dashboard JSON payload missing 'widgets'"
+    assert "charts" in data, "Dashboard JSON payload missing 'charts'"
+    
+    widgets = data["widgets"]
+    assert "total_employees" in widgets, "Total employees metric missing"
+    assert widgets["total_seats"] > 0, "Seeding function failed to populate workspace zones."
 
-# Wait a second for server to come up just in case
-time.sleep(2)
+def test_employee_fetching():
+    client = TestClient(app)
+    response = client.get("/api/v1/employees/?limit=5")
+    assert response.status_code == 200, "Employee retrieval failed"
+    employees = response.json()
+    assert len(employees) <= 5, "Pagination limit enforcement failed."
 
-print("Attempting to login...")
-response = requests.post(f"{BASE_URL}/login/access-token", data={
-    "username": "admin@seatflow.ai",
-    "password": "admin123"
-})
-if response.status_code != 200:
-    print(f"Login failed: {response.text}")
-    exit(1)
+def test_api_availability():
+    client = TestClient(app)
+    response = client.get("/docs")
+    assert response.status_code == 200, "Swagger specification documentation is unavailable."
 
-token = response.json().get("access_token")
-print(f"Login successful! Acquired JWT token.")
-
-headers = {"Authorization": f"Bearer {token}"}
-
-print("\nFetching Dashboard Metrics...")
-dash_res = requests.get(f"{BASE_URL}/dashboard/metrics", headers=headers)
-if dash_res.status_code == 200:
-    print("Dashboard Metrics Data:")
-    print(json.dumps(dash_res.json(), indent=2))
-else:
-    print(f"Dashboard failed: {dash_res.text}")
+print("Unit test specs loaded.")

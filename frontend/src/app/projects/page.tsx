@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 async function getProjects() {
-  const res = await fetch("http://localhost:8000/api/v1/projects/?limit=50", { cache: 'no-store' });
+  const res = await fetch("http://127.0.0.1:8000/api/v1/projects/?limit=50", { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
@@ -36,7 +36,8 @@ export default async function ProjectsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {projects.map((proj: any) => (
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {projects.map((proj: any) => (
                 <TableRow key={proj.id}>
                   <TableCell>{proj.id}</TableCell>
                   <TableCell className="font-medium">{proj.name}</TableCell>

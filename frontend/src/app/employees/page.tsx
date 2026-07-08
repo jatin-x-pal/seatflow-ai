@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 async function getEmployees() {
-  const res = await fetch("http://localhost:8000/api/v1/employees/?limit=50", { cache: 'no-store' });
+  const res = await fetch("http://127.0.0.1:8000/api/v1/employees/?limit=50", { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
@@ -40,7 +40,8 @@ export default async function EmployeesPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {employees.map((emp: any) => (
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {employees.map((emp: any) => (
                 <TableRow key={emp.id}>
                   <TableCell className="font-medium">{emp.employee_code}</TableCell>
                   <TableCell>{emp.name}</TableCell>

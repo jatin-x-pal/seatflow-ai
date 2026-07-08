@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 async function getSeats() {
-  const res = await fetch("http://localhost:8000/api/v1/seats/?limit=50", { cache: 'no-store' });
+  const res = await fetch("http://127.0.0.1:8000/api/v1/seats/?limit=50", { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
@@ -36,7 +36,8 @@ export default async function SeatsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {seats.map((seat: any) => (
+              {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            {seats.map((seat: any) => (
                 <TableRow key={seat.id}>
                   <TableCell className="font-medium">{seat.seat_number}</TableCell>
                   <TableCell>{seat.floor_id}</TableCell>

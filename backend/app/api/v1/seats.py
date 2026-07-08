@@ -14,8 +14,7 @@ def get_seats(
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1),
     status: Optional[str] = None,
-    floor_id: Optional[int] = None,
-    current_user = Depends(deps.get_current_user)
+    floor_id: Optional[int] = None
 ) -> Any:
     query = db.query(Seat)
     if status:

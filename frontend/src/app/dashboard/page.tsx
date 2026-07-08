@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Building, Armchair, BarChart2 } from "lucide-react";
 
 async function getMetrics() {
-  const res = await fetch("http://localhost:8000/api/v1/dashboard/metrics", { cache: 'no-store' });
+  const res = await fetch("http://127.0.0.1:8000/api/v1/dashboard/metrics", { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch data');
   }
@@ -13,7 +13,7 @@ export default async function DashboardPage() {
   let data;
   try {
     data = await getMetrics();
-  } catch (error) {
+  } catch {
     return <div className="p-8 text-red-500">Error connecting to the API. Make sure the FastAPI backend is running!</div>;
   }
 
@@ -73,7 +73,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <ul className="space-y-4">
-              {charts.department_distribution.map((dept: any) => (
+              {charts.department_distribution.map((dept: { name: string; value: number }) => (
                 <li key={dept.name} className="flex justify-between items-center border-b pb-2 last:border-0 last:pb-0">
                   <span className="text-muted-foreground">{dept.name}</span>
                   <span className="font-bold">{dept.value}</span>
@@ -89,7 +89,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
              <ul className="space-y-4">
-              {charts.project_distribution.map((proj: any) => (
+              {charts.project_distribution.map((proj: { name: string; value: number }) => (
                 <li key={proj.name} className="flex justify-between items-center border-b pb-2 last:border-0 last:pb-0">
                   <span className="text-muted-foreground">{proj.name}</span>
                   <span className="font-bold">{proj.value}</span>

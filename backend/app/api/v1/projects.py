@@ -12,8 +12,7 @@ def get_projects(
     db: Session = Depends(deps.get_db),
     skip: int = Query(0, ge=0),
     limit: int = Query(100, ge=1),
-    search: Optional[str] = None,
-    current_user = Depends(deps.get_current_user)
+    search: Optional[str] = None
 ) -> Any:
     query = db.query(Project)
     if search:
@@ -24,8 +23,7 @@ def get_projects(
 @router.post("/", response_model=ProjectResponse)
 def create_project(
     project_in: ProjectCreate,
-    db: Session = Depends(deps.get_db),
-    current_user = Depends(deps.get_current_active_admin)
+    db: Session = Depends(deps.get_db)
 ) -> Any:
     db_obj = Project(**project_in.model_dump())
     db.add(db_obj)

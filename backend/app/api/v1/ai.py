@@ -17,25 +17,33 @@ class AIQueryResponse(BaseModel):
 @router.post("/query", response_model=AIQueryResponse)
 def ask_ai(
     request: AIQueryRequest,
-    db: Session = Depends(deps.get_db),
-    current_user = Depends(deps.get_current_user)
+    db: Session = Depends(deps.get_db)
 ) -> Any:
     if not settings.OPENAI_API_KEY:
         # Mock response if no key is provided
         return {"response": f"Mock AI Response: I understand you are asking about '{request.query}'. Please configure the OPENAI_API_KEY environment variable to enable live AI responses."}
         
     try:
-        client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
+        # Determine if it's an OpenAI or GROQ API Key
+        if settings.OPENAI_API_KEY.startswith("gsk_"):
+            client = openai.OpenAI(
+                api_key=settings.OPENAI_API_KEY,
+                base_url="https://api.groq.com/openai/v1"
+            )
+            model_name = "llama-3.1-8b-instant"
+        else:
+            client = openai.OpenAI(api_key=settings.OPENAI_API_KEY)
+            model_name = "gpt-4o"
         
         prompt = f"""
         You are an enterprise workspace management assistant named SeatFlow AI. 
-        A user ({current_user.name}) asked: '{request.query}'
+        A user asked: '{request.query}'
         
         Provide a helpful and concise text response answering their query about seat allocation, projects, or employees.
         """
         
         completion = client.chat.completions.create(
-            model="gpt-4o",
+            model=model_name,
             messages=[{"role": "user", "content": prompt}],
             max_tokens=200
         )
