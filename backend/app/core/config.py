@@ -18,6 +18,12 @@ class Settings(BaseSettings):
     
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
     
+    BACKEND_CORS_ORIGINS: list[str] = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://seatflow-ai.vercel.app",
+    ]
+    
     class Config:
         env_file = ".env"
 
